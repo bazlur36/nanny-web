@@ -6,7 +6,9 @@ import ReactDOM from 'react-dom';
 import Blogs from './components/Blogs.jsx';
 import Jobs from './components/Jobs.jsx';
 import Login from './components/Login.jsx';
-import BlogDetail from './components/BlogDetail.jsx';
+import Detail from './components/Detail.jsx';
+import JobCreate from './components/job/Create.jsx';
+import JobEdit from './components/job/Edit.jsx';
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 class App extends React.Component {
@@ -61,7 +63,7 @@ class App extends React.Component {
                          <Link className="nav-link" to="/jobs">Jobs</Link>
                      </li>
                      <li className="nav-item">
-                       Welcome {this.state.user_name}, <Link onClick={() => this.makeLogOut()}>Logout</Link>
+                       <Link className="nav-link" onClick={() => this.makeLogOut()}>Logout</Link>
                      </li>
                      </ul>
                  </li>
@@ -91,6 +93,7 @@ class App extends React.Component {
             <li className="nav-item">
               <Link className="nav-link" to="/about">About</Link>
             </li>
+
             <li className="nav-item">
               <Link className="nav-link"  to="/blogs">Blogs</Link>
             </li>
@@ -107,15 +110,25 @@ class App extends React.Component {
           <Route path="/login">
             <Login />
           </Route>
-        <Route path="/jobs">
+        <Route exact path="/jobs">
             <Jobs />
           </Route>
+            {/*<Route path="/job">
+                <Detail />
+            </Route>*/}
+            {/*<Route exact path="/job/:id" render={(props)=>{
+                <Detail id={props.match.params.id}/>
+            }} />*/}
+            <Route exact path="/jobs/:id" component={Detail} />
+            <Route exact path="/jobs/edit/:id" component={JobEdit} />
+            <Route exact path="/job/create" component={JobCreate} />
           <Route path="/blogs">
             <Blogs user={"bazlur"} />
           </Route>
           <Route path="/">
             <Home />
           </Route>
+
         </Switch>
 
       </main>

@@ -1,13 +1,15 @@
 import React from 'react';
-import logo from './../logo.svg';
+import logo from './../../logo.svg';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
-class BlogDetail extends React.Component {
+class JobEdit extends React.Component {
     constructor(props) {
         super(props);
-        //console.log(this.props.user)
+        console.log('=========JOB Edit==========')
+        console.log(this.props.match.params.id)
+        console.log('++++++++++++++++++++')
         this.state = {
             error: null,
             isLoaded: false,
@@ -61,4 +63,4 @@ class BlogDetail extends React.Component {
     }
 
 }
-export default BlogDetail;
+export default JobEdit;
