@@ -9,7 +9,8 @@ import Login from './components/Login.jsx';
 import Detail from './components/Detail.jsx';
 import JobCreate from './components/job/Create.jsx';
 import JobEdit from './components/job/Edit.jsx';
-import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
+import PrivateRoute from './components/PrivateRoute'
+import {HashRouter as Router, Switch, Route, Link} from "react-router-dom";
 
 class App extends React.Component {
 
@@ -35,7 +36,7 @@ class App extends React.Component {
         let user_name = localStorage.getItem('user_name')
         console.log(auth_token)
         console.log("======================================")
-        if( auth_token == null ) {
+        if (auth_token == null) {
             this.setState({isLoggedIn: false})
         }
         else {
@@ -51,114 +52,110 @@ class App extends React.Component {
         window.location = '/'
     }
 
- render() {
-     let {isLoggedIn} = this.state;
-     console.log(isLoggedIn)
-     const LoggedInMenu = ()=>{
-         if(isLoggedIn){
-             return (
-                 <li className="nav-item">
-                     <ul className="navbar-nav">
-                     <li className="nav-item">
-                         <Link className="nav-link" to="/jobs">Jobs</Link>
-                     </li>
-                     <li className="nav-item">
-                       <Link className="nav-link" onClick={() => this.makeLogOut()}>Logout</Link>
-                     </li>
-                     </ul>
-                 </li>
+    render() {
+        let {isLoggedIn} = this.state;
+        console.log(isLoggedIn)
+        const LoggedInMenu = () => {
+            if (isLoggedIn) {
+                return (
+                    <li className="nav-item">
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/jobs">Jobs</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" onClick={() => this.makeLogOut()}>Logout</Link>
+                            </li>
+                        </ul>
+                    </li>
 
-             )
-         } else{
-             return (<li className="nav-item">
-                       <Link className="nav-link" to="/login">Login</Link>
-                     </li>
-             )
-         }
-     }
+                )
+            } else {
+                return (<li className="nav-item">
+                        <Link className="nav-link" to="/login">Login</Link>
+                    </li>
+                )
+            }
+        }
 
-  return (
-    <Router>
-      <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a className="navbar-brand" href="#">Navbar</a>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        return (
+            <Router>
+                <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+                    <a className="navbar-brand" href="#">Navbar</a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
-        <div className="collapse navbar-collapse" id="navbarsExampleDefault">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <Link className="nav-link" to="/">Home</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">About</Link>
-            </li>
+                    <div className="collapse navbar-collapse" id="navbarsExampleDefault">
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <Link className="nav-link" to="/">Home</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/about">About</Link>
+                            </li>
 
-            <li className="nav-item">
-              <Link className="nav-link"  to="/blogs">Blogs</Link>
-            </li>
-              {LoggedInMenu()}
-          </ul>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/blogs">Blogs</Link>
+                            </li>
+                            {LoggedInMenu()}
+                        </ul>
 
-        </div>
-      </nav>
-      <main role="main" className="container" style={{marginTop: "100px"}}>
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-        <Route exact path="/jobs">
-            <Jobs />
-          </Route>
-            {/*<Route path="/job">
-                <Detail />
-            </Route>*/}
-            {/*<Route exact path="/job/:id" render={(props)=>{
-                <Detail id={props.match.params.id}/>
-            }} />*/}
-            <Route exact path="/jobs/:id" component={Detail} />
-            <Route exact path="/jobs/edit/:id" component={JobEdit} />
-            <Route exact path="/job/create" component={JobCreate} />
-          <Route path="/blogs">
-            <Blogs user={"bazlur"} />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+                    </div>
+                </nav>
+                <main role="main" className="container" style={{marginTop: "100px"}}>
+                    <Switch>
+                        <Route path="/about">
+                            <About />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                        <Route exact path="/jobs">
+                            <Jobs />
+                        </Route>
+                        <Route exact path="/jobs/:id" component={Detail}/>
+                        <Route exact path="/jobs/edit/:id" component={JobEdit}/>
+                        <PrivateRoute exact path="/job/create" component={JobCreate}/>
+                        <Route path="/blogs">
+                            <Blogs user={"bazlur"}/>
+                        </Route>
+                        <Route path="/">
+                            <Home />
+                        </Route>
 
-        </Switch>
+                    </Switch>
 
-      </main>
-      <div>
+                </main>
+                <div>
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+                    {/* A <Switch> looks through its children <Route>s and
+                     renders the first one that matches the current URL. */}
 
-      </div>
-      <footer className="footer mt-auto py-3">
-        <div className="container">
-          <span className="text-muted">Place sticky footer content here.</span>
-        </div>
-      </footer>
-    </Router>
+                </div>
+                <footer className="footer mt-auto py-3">
+                    <div className="container">
+                        <span className="text-muted">Place sticky footer content here.</span>
+                    </div>
+                </footer>
+            </Router>
 
-  );
-  }
+        );
+    }
 }
 
 function Home() {
-  return <h2>Home</h2>;
+    return <h2>Home</h2>;
 }
 
 function About() {
-  return <h2>About</h2>;
+    return <h2>About</h2>;
 }
 
 function Users() {
-  return <h2>Users</h2>;
+    return <h2>Users</h2>;
 }
 
 export default App;
