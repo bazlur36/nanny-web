@@ -45,13 +45,7 @@ class Login extends React.Component {
                 this.setState({ isLoading: false, warning_message: false }, () => {
                     
                     localStorage.setItem('authentication_token', responseJson.user.auth_token);
-                    localStorage.setItem('user_name', `${responseJson.name}`);
-                    if (responseJson.role == 'nanny') {
-                        alert("nanny")
-
-                    } else if (responseJson.role == 'parent') {
-                        alert("parent")
-                    }
+                    localStorage.setItem('role', `${responseJson.role}`);
                     window.location = '/'
                 });
 

@@ -6,7 +6,8 @@ import ReactDOM from 'react-dom';
 import Blogs from './components/Blogs.jsx';
 import Jobs from './components/Jobs.jsx';
 import Login from './components/Login.jsx';
-import Detail from './components/Detail.jsx';
+import JobApplications from './components/Detail.jsx';
+import JobDetails from './components/JobDetails.jsx';
 import JobCreate from './components/job/Create.jsx';
 import JobEdit from './components/job/Edit.jsx';
 import PrivateRoute from './components/PrivateRoute'
@@ -116,12 +117,13 @@ class App extends React.Component {
                         <Route exact path="/jobs">
                             <Jobs />
                         </Route>
-                        <Route exact path="/jobs/:id" component={Detail}/>
+                        <Route exact path="/jobs/:id" component={JobDetails}/>
                         <Route exact path="/jobs/edit/:id" component={JobEdit}/>
                         <PrivateRoute exact path="/job/create" component={JobCreate}/>
                         <Route path="/blogs">
                             <Blogs user={"bazlur"}/>
                         </Route>
+                        <Route exact path="/jobs/:id/applications" component={JobApplications} />
                         <Route path="/">
                             <Home />
                         </Route>
@@ -130,10 +132,6 @@ class App extends React.Component {
 
                 </main>
                 <div>
-
-                    {/* A <Switch> looks through its children <Route>s and
-                     renders the first one that matches the current URL. */}
-
                 </div>
                 <footer className="footer mt-auto py-3">
                     <div className="container">

@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './../logo.svg';
 import { BrowserRouter, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 class JobDetails extends React.Component {
     constructor(props) {
@@ -9,16 +10,17 @@ class JobDetails extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            items: []
+            job: null,
+            applications: []
         };
 
     }
 
 
     componentDidMount() {
-        //fetch("https://jsonplaceholder.typicode.com/todos")
         let auth_token = localStorage.getItem('authentication_token')
-        fetch("http://localhost:3000/api/job/all_openings",{
+        let jobId = this.props.match.params.id
+        fetch(`http://localhost:3000/api/jobs/${jobId}`,{
             headers: {
                 'Content-Type': 'application/json',
                 'enableEmptySections':true,
@@ -30,7 +32,7 @@ class JobDetails extends React.Component {
                     console.log(result)
                     this.setState({
                         isLoaded: true,
-                        items: result.jobs
+                        job: result.job
                     });
                 },
                 // Note: it's important to handle errors here
@@ -53,13 +55,13 @@ class JobDetails extends React.Component {
             return <div>Loading...</div>;
         } else {
             return (
-                <ul>
-                    {items.map(item => (
-                        <li onClick={this.blogDetail} key={item.title}>
-                            {item.title} {item.title}
-                        </li>
-                    ))}
-                </ul>
+                <div className="row">
+                    <div className="col-lg-12">
+                        <h3>{this.state.job.title}</h3>
+                        <p>{this.state.job.description}</p>
+                        <Link to={`/jobs/${this.state.job.id}/applications`}>View Applications</Link>
+                    </div>
+                </div>
             );
         }
     }

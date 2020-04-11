@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 class Jobs extends React.Component {
     constructor(props) {
         super(props);
-        alert("constructor")
+        //alert("constructor")
         this.state = {
             error: null,
             isLoaded: false,
@@ -19,7 +19,7 @@ class Jobs extends React.Component {
 
 
     componentWillMount() {
-        alert("CWM")
+        //alert("CWM")
         let auth_token = localStorage.getItem('authentication_token')
         if (auth_token === null) {
             this.setState({
@@ -34,7 +34,7 @@ class Jobs extends React.Component {
     }
 
     componentDidMount() {
-        alert("CDM")
+        //alert("CDM")
         //fetch("https://jsonplaceholder.typicode.com/todos")
         let auth_token = localStorage.getItem('authentication_token')
 
@@ -69,7 +69,7 @@ class Jobs extends React.Component {
     }
 
     render() {
-        alert("Render"+this.state.authorized)
+        //alert("Render"+this.state.authorized)
         if(!this.state.authorized) {
             //alert(this.state.authorized)
             return <Redirect to='/login' />
@@ -87,7 +87,6 @@ class Jobs extends React.Component {
                         {items.map(item => (
                             <li>
                                 <Link to={`/jobs/${item.id}`}>{item.title}</Link>
-
                             </li>
                         ))}
                     </ul>
