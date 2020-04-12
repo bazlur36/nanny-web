@@ -46,6 +46,7 @@ class Login extends React.Component {
                     
                     localStorage.setItem('authentication_token', responseJson.user.auth_token);
                     localStorage.setItem('role', `${responseJson.role}`);
+                    localStorage.setItem('user', `${responseJson.user}`);
                     window.location = '/'
                 });
 

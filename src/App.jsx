@@ -65,7 +65,7 @@ class App extends React.Component {
                                 <Link className="nav-link" to="/jobs">Jobs</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" onClick={() => this.makeLogOut()}>Logout</Link>
+                                <Link className="nav-link" to="" onClick={() => this.makeLogOut()}>Logout</Link>
                             </li>
                         </ul>
                     </li>

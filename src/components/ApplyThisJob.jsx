@@ -38,35 +38,40 @@ class ApplyThisJob extends React.Component {
         job_application.job_id = this.state.job.id
         job_application.bid_amount = this.state.bid_amount;
 
-        alert('A name was submitted: ' + this.state.amount);
+        //alert('A name was submitted: ' + this.state.amount);
         event.preventDefault();
 
-        try {
-            let response = fetch(`http://localhost:3000/api/job_applications`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'enableEmptySections':true,
-                    'Authorization': 'Token token=' + localStorage.getItem('authentication_token')
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'enableEmptySections':true,
+                'Authorization': 'Token token=' + localStorage.getItem('authentication_token')
+            },
+            body: JSON.stringify(job_application)
+        };
+        fetch('http://localhost:3000/api/job_applications', requestOptions)
+            .then(response => response.json())
+            .then(
+                (result) => {
+                    //console.log(result)
+                    this.setState({
+                        isLoaded: true
+                    });
+
+                    {this.props.updateApplications(result.job_application,true)}
+                    //window.location.reload(false);
                 },
-                body: JSON.stringify(job_application),
-            });
-            let responseJson = response.json();
-            if (response.ok) {
-                this.setState({ isLoading: false, warning_message: false }, () => {
-
-                });
-
-            } else {
-                this.setState({ isLoaded: false });
-            }
-        } catch (error) {
-            console.log(error)
-            /*this.setState({ isLoading: false });*/
-            alert('Something went wrong, please try again.');
-        }
-
-
+                // Note: it's important to handle errors here
+                // instead of a catch() block so that we don't swallow
+                // exceptions from actual bugs in components.
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            )
 
     }
 
